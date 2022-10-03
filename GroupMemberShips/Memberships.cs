@@ -9,14 +9,22 @@ namespace GroupMemberShips
     {
         private readonly ConcurrentDictionary<Guid, MembershipGroup> _memberships = new();
 
+        public MembershipGroup Get(Guid id)
+        {
+            return _memberships[id];
+        }
+
         public void AddOrUpdate(MembershipGroup membership)
         {
             _memberships[membership.Id] = membership;
         }
 
-        public MembershipGroup Get(Guid id)
+        public void Remove(Guid identityGroupId)
         {
-            return _memberships[id];
+            if (!_memberships.TryRemove(identityGroupId, out MembershipGroup _))
+            {
+                Console.WriteLine($"    Warning!: allready removed {identityGroupId}.");
+            }
         }
 
         /// <summary>
@@ -35,14 +43,6 @@ namespace GroupMemberShips
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        public void Remove(Guid identityGroupId)
-        {
-            if (!_memberships.TryRemove(identityGroupId, out MembershipGroup _))
-            {
-                Console.WriteLine($"    Warning!: allready removed {identityGroupId}.");
-            }
         }
     }
 }
