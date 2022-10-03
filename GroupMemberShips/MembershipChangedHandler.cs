@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GroupMemberShips
 {
@@ -22,11 +18,12 @@ namespace GroupMemberShips
                 .SelectMany(g =>
                 {
                     var members = g.Key == IdentityType.IdentityGroup
-                        ? g.Select(gi => new MembershipGroup(gi.Id, String.Empty, new List<MembershipIdentity>() as MembershipIdentity
-                        : g.Select(i => new MembershipIdentity(i.Id, String.Empty)).ToList() as IEnumerable<MembershipIdentity>;
+                        ? g.Select(gi => new MembershipGroup(gi.Id, string.Empty, new List<MembershipIdentity>()))
+                        : g.Select(i => new MembershipIdentity(i.Id, string.Empty)).ToList() as IEnumerable<MembershipIdentity>;
 
                     return members;
-                });
+                })
+                .ToList();
             var membershipGroup = new MembershipGroup(group.Id, group.Name, members);
 
             _membershipGroups.AddOrUpdate(membershipGroup);
