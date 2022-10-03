@@ -2,24 +2,24 @@
 
 namespace GroupMemberships.Tests;
 
-public class AnyGroup
+public class AnyMembershipGroup
 {
     private readonly Guid _id;
     private IReadOnlyCollection<MembershipIdentity> _members = new List<MembershipIdentity>();
 
-    public AnyGroup()
+    public AnyMembershipGroup()
     {
         _id = Guid.NewGuid();
     }
 
-    public AnyGroup WithMembers(params MembershipIdentity[] members)
+    public AnyMembershipGroup WithMembers(params MembershipIdentity[] members)
     {
         _members = members;
 
         return this;
     }
 
-    public AnyGroup WithMembers(IReadOnlyCollection<MembershipIdentity> members)
+    public AnyMembershipGroup WithMembers(IReadOnlyCollection<MembershipIdentity> members)
     {
         _members = members;
         return this;

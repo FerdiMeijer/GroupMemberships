@@ -16,20 +16,20 @@ public class MembershipsSeeder
     private readonly Random _random = new();
     private readonly ConcurrentDictionary<Guid, IdentityType> _seeds = new();
 
-    public MembershipsSeeder(Memberships memberships,
+    public MembershipsSeeder(MembershipGroups membershipGroups,
         int noPersons = DefaultNoPersons,
         int noResourceGroups = DefaultNoResourceGroups,
         int noTeamMemberGroups = DefaultNoTeamMemberGroups)
     {
-        _persons = Enumerable.Range(0, noPersons).Select(i => new AnyPerson().Build()).ToList();
+        _persons = Enumerable.Range(0, noPersons).Select(i => new AnyMembershipIdentity().Build()).ToList();
         _memberGroups = new List<MembershipGroup>();
         for (int i = 0; i < noTeamMemberGroups; i++)
         {
             var members = GetSomeExistingMembers(0, 5);
-            var membergroup = new AnyGroup().WithMembers(members).Build();
+            var membergroup = new AnyMembershipGroup().WithMembers(members).Build();
 
             _memberGroups.Add(membergroup); // add to member groups
-            memberships.AddOrUpdate(membergroup); // add to memberships
+            membershipGroups.AddOrUpdate(membergroup); // add to memberships
 
             _seeds[membergroup.Id] = IdentityType.IdentityGroup;
         }
@@ -37,8 +37,8 @@ public class MembershipsSeeder
         for (int i = 0; i < noResourceGroups; i++)
         {
             var members = GetSomeExistingMembers(5, 10);
-            var resourcegroup = new AnyGroup().WithMembers(members).Build();
-            memberships.AddOrUpdate(resourcegroup); // add to memberships
+            var resourcegroup = new AnyMembershipGroup().WithMembers(members).Build();
+            membershipGroups.AddOrUpdate(resourcegroup); // add to memberships
 
             _seeds[resourcegroup.Id] = IdentityType.IdentityGroup;
         }

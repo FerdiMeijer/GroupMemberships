@@ -6,21 +6,21 @@ namespace GroupMemberShips
     public class MembershipValidator
     {
         private readonly HashSet<Guid> _checkedGroups = new();
-        private readonly Memberships _memberships;
+        private readonly MembershipGroups _membershipGroups;
 
-        public MembershipValidator(Memberships memberships)
+        public MembershipValidator(MembershipGroups membershipGroups)
         {
-            _memberships = memberships;
+            _membershipGroups = membershipGroups;
         }
 
-        public bool IsMemberOf(Guid personId, Guid groupId)
+        public bool IsMemberOf(Guid identityId, Guid groupId)
         {
             if (_checkedGroups.TryGetValue(groupId, out Guid _))
             {
                 return false;
             }
 
-            var group = _memberships.Get(groupId);
+            var group = _membershipGroups.Get(groupId);
             _checkedGroups.Add(groupId);
 
             var result = false;
@@ -28,11 +28,11 @@ namespace GroupMemberShips
             {
                 if (member is MembershipGroup membershipGroup)
                 {
-                    result = IsMemberOf(personId, membershipGroup.Id);
+                    result = IsMemberOf(identityId, membershipGroup.Id);
                 }
                 else
                 {
-                    result = member.Id == personId;
+                    result = member.Id == identityId;
                 }
 
                 if (result)

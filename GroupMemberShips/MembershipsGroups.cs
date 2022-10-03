@@ -5,23 +5,23 @@ using System.Collections.Generic;
 
 namespace GroupMemberShips
 {
-    public class Memberships : IEnumerable<MembershipGroup>
+    public class MembershipGroups : IEnumerable<MembershipGroup>
     {
-        private readonly ConcurrentDictionary<Guid, MembershipGroup> _memberships = new();
+        private readonly ConcurrentDictionary<Guid, MembershipGroup> _membershipGroups = new();
 
         public MembershipGroup Get(Guid id)
         {
-            return _memberships[id];
+            return _membershipGroups[id];
         }
 
         public void AddOrUpdate(MembershipGroup membership)
         {
-            _memberships[membership.Id] = membership;
+            _membershipGroups[membership.Id] = membership;
         }
 
         public void Remove(Guid identityGroupId)
         {
-            if (!_memberships.TryRemove(identityGroupId, out MembershipGroup _))
+            if (!_membershipGroups.TryRemove(identityGroupId, out MembershipGroup _))
             {
                 Console.WriteLine($"    Warning!: allready removed {identityGroupId}.");
             }
@@ -37,7 +37,7 @@ namespace GroupMemberShips
         /// <returns></returns>
         public IEnumerator<MembershipGroup> GetEnumerator()
         {
-            return _memberships.Values.GetEnumerator();
+            return _membershipGroups.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

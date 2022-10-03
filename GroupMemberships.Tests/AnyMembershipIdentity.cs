@@ -2,11 +2,11 @@
 
 namespace GroupMemberships.Tests;
 
-public class AnyPerson
+public class AnyMembershipIdentity
 {
     private readonly MembershipIdentity _identity;
 
-    public AnyPerson()
+    public AnyMembershipIdentity()
     {
         var id = Guid.NewGuid();
         _identity = new MembershipIdentity(id, $"Person-{id}");

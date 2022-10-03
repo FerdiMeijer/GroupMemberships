@@ -4,7 +4,7 @@ namespace GroupMemberships.Tests;
 
 public static class MembershipPrinter
 {
-    public static void PrintMemberships(this Memberships memberships)
+    public static void PrintMemberships(this MembershipGroups memberships)
     {
         memberships.ToList().ForEach(m =>
         {
