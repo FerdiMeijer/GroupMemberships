@@ -71,7 +71,8 @@ public class Memberships_Iterate_WhileModifying_Tests
             foreach (var item in list)
             {
                 i++;
-                Console.WriteLine($"{_stopwatch.ElapsedMilliseconds}:{name}:{i} {item.Id}: memberCount:{item.Members.Count()} total: {_memberships.Count()}");
+                Console.WriteLine($"{_stopwatch.ElapsedMilliseconds}:{name}:{i} {item.Id}:" +
+                    $" memberCount:{item.Members.Count} total: {_memberships.Count()}");
                 Thread.Sleep(_random.Next(10, 20));
             }
             Console.WriteLine($"Finished:{name}");
