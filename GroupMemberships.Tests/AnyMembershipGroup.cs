@@ -12,21 +12,31 @@ public class AnyMembershipGroup
         _id = Guid.NewGuid();
     }
 
+    public MembershipGroup Build()
+    {
+        return new MembershipGroup(_id, $"Group-{_id}", _members);
+    }
+
     public AnyMembershipGroup WithMembers(params MembershipIdentity[] members)
     {
-        _members = members;
+        _members = Clone(members);
 
         return this;
     }
 
     public AnyMembershipGroup WithMembers(IReadOnlyCollection<MembershipIdentity> members)
     {
-        _members = members;
+        _members = Clone(members);
+
         return this;
     }
 
-    public MembershipGroup Build()
+    private IReadOnlyCollection<MembershipIdentity> Clone(IEnumerable<MembershipIdentity> members)
     {
-        return new MembershipGroup(_id, $"Group-{_id}", _members);
+        return members.OfType<MembershipGroup>()
+           .Select(group => new MembershipGroup(group.Id, group.Name, new List<MembershipIdentity>()))
+           .Concat(members.OfType<MembershipIdentity>()
+               .Select(identity => new MembershipIdentity(identity.Id, identity.Name)))
+           .ToList();
     }
 }
